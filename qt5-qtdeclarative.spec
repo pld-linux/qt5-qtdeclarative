@@ -1,5 +1,4 @@
 # TODO:
-# - use PLD ldflags
 # - cleanup
 
 %define		orgname		qtdeclarative
@@ -13,6 +12,7 @@ Source0:	http://download.qt-project.org/official_releases/qt/5.2/%{version}/subm
 # Source0-md5:	0f7714c5c91b8eb7cdc1071f0a51c202
 URL:		http://qt-project.org/
 BuildRequires:	qt5-qtbase-devel = %{version}
+BuildRequires:	qt5-qttools-devel = %{version}
 BuildRequires:	rpmbuild(macros) >= 1.654
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -33,6 +33,13 @@ Requires:	%{name} = %{version}-%{release}
 %description devel
 Qt5 Declarative - development files.
 
+%package doc
+Summary:	The Qt5 Declarative - docs
+Group:		Documentation
+
+%description doc
+Qt5 Declarative - documentation.
+
 %package examples
 Summary:	Qt5 Declarative examples
 Group:		X11/Development/Libraries
@@ -50,7 +57,10 @@ qmake-qt5
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__make} install install_docs \
+%{__make} install \
+	INSTALL_ROOT=$RPM_BUILD_ROOT
+
+%{__make} install_docs \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
 # Prepare some files list
@@ -121,7 +131,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/cmake/Qt5Qml
 %{_libdir}/cmake/Qt5Quick
 %{_libdir}/cmake/Qt5QuickTest
-%{_libdir}/cmake/Qt5Widgets
 
 %{_includedir}/qt5/QtQml
 %{_includedir}/qt5/QtQuick
@@ -131,5 +140,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_pkgconfigdir}/*.pc
 
 %{_qtdir}/mkspecs
+
+%files doc
+%defattr(644,root,root,755)
+%{_docdir}/qt5-doc
 
 %files examples -f examples.files
