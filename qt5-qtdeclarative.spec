@@ -38,6 +38,9 @@ Qt5 Declarative - development files.
 %package doc
 Summary:	The Qt5 Declarative - docs
 Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description doc
 Qt5 Declarative - documentation.
@@ -45,6 +48,9 @@ Qt5 Declarative - documentation.
 %package examples
 Summary:	Qt5 Declarative examples
 Group:		X11/Development/Libraries
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description examples
 Qt5 Declarative - examples.
