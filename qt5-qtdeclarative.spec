@@ -2,7 +2,8 @@
 # - cleanup
 
 %define		orgname		qtdeclarative
-Summary:	The Qt5 Declarative
+Summary:	The Qt5 Declarative libraries
+Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
 Version:	5.2.0
 Release:	0.1
@@ -18,42 +19,64 @@ BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_noautoreqdep	libGL.so.1 libGLU.so.1
-%define		_noautostrip	'.*_debug\\.so*'
-
 %define		specflags	-fno-strict-aliasing
-%define		_qtdir		%{_libdir}/qt5
+%define		qt5dir		%{_libdir}/qt5
 
 %description
-Qt5 declarative libraries.
+Qt is a cross-platform application and UI framework. Using Qt, you can
+write web-enabled applications once and deploy them across desktop,
+mobile and embedded systems without rewriting the source code.
+
+This package contains Qt5 Declarative libraries.
+
+%description -l pl.UTF-8
+Qt to wieloplatformowy szkielet aplikacji i interfejsów użytkownika.
+Przy użyciu Qt można pisać aplikacje powiązane z WWW i wdrażać je w
+systemach biurkowych, przenośnych i wbudowanych bez przepisywania kodu
+źródłowego.
+
+Ten pakiet zawiera biblioteki Qt5 Declarative.
 
 %package devel
 Summary:	The Qt5 Declarative application framework - development files
+Summary(pl.UTF-8):	Szkielet aplikacji Qt5 Declarative - pliki programistyczne
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
-Qt5 Declarative - development files.
+The Qt5 Declarative application framework - development files.
+
+%description devel -l pl.UTF-8
+Szkielet aplikacji Qt5 Declarative - pliki programistyczne.
 
 %package doc
-Summary:	The Qt5 Declarative - docs
+Summary:	Qt5 Declarative documentation
+Summary(pl.UTF-8):	Dokumentacja do biblioteki Qt5 Declarative
 Group:		Documentation
+Requires:	qt5-doc-common >= %{qtbase_ver}
 %if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
 %endif
 
 %description doc
-Qt5 Declarative - documentation.
+Qt5 Declarative documentation.
+
+%description doc -l pl.UTF-8
+Dokumentacja do biblioteki Qt5 Declarative
 
 %package examples
 Summary:	Qt5 Declarative examples
+Summary(pl.UTF-8):	Przykłady do biblioteki Qt5 Declarative
 Group:		X11/Development/Libraries
 %if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
 %endif
 
 %description examples
-Qt5 Declarative - examples.
+Qt5 Declarative examples.
+
+%description examples -l pl.UTF-8
+Przykłady do biblioteki Qt5 Declarative.
 
 %prep
 %setup -q -n %{orgname}-opensource-src-%{version}
@@ -70,6 +93,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install_docs \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
+
+# actually drop *.la, follow policy of not packaging them when *.pc exist
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
 # Prepare some files list
 ifecho() {
@@ -99,8 +125,8 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post		-p /sbin/ldconfig
-%postun		-p /sbin/ldconfig
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -114,9 +140,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickTest.so.?
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so.*.*
 %{_libdir}/libQt5QmlDevTools.a
-%attr(755,root,root) %{_qtdir}/bin/qml*
-%attr(755,root,root) %{_qtdir}/plugins
-%attr(755,root,root) %{_qtdir}/qml
+%attr(755,root,root) %{qt5dir}/bin/qml*
+%attr(755,root,root) %{qt5dir}/plugins
+%attr(755,root,root) %{qt5dir}/qml
 
 %files devel
 %defattr(644,root,root,755)
@@ -124,11 +150,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQt5Quick.so
 %attr(755,root,root) %{_libdir}/libQt5QuickParticles.so
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so
-%{_libdir}/libQt5Qml.la
-%{_libdir}/libQt5Quick.la
-%{_libdir}/libQt5QuickParticles.la
-%{_libdir}/libQt5QuickTest.la
-%{_libdir}/libQt5QmlDevTools.la
 
 %{_libdir}/libQt5Qml.prl
 %{_libdir}/libQt5Quick.prl
@@ -147,7 +168,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_pkgconfigdir}/*.pc
 
-%{_qtdir}/mkspecs
+%{qt5dir}/mkspecs
 
 %files doc
 %defattr(644,root,root,755)
