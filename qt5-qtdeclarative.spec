@@ -1,5 +1,5 @@
 # TODO: QtQml / QtQuick split?
-
+#
 # Conditional build:
 %bcond_without	qch	# documentation in QCH format
 
@@ -64,8 +64,8 @@ The Qt5 Declarative application framework - development files.
 Szkielet aplikacji Qt5 Declarative - pliki programistyczne.
 
 %package doc
-Summary:	Qt5 Declarative documentation
-Summary(pl.UTF-8):	Dokumentacja do biblioteki Qt5 Declarative
+Summary:	Qt5 Declarative documentation in HTML format
+Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Declarative w formacie HTML
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
 %if "%{_rpmversion}" >= "5"
@@ -73,14 +73,29 @@ BuildArch:	noarch
 %endif
 
 %description doc
-Qt5 Declarative documentation.
+Qt5 Declarative documentation in HTML format.
 
 %description doc -l pl.UTF-8
-Dokumentacja do biblioteki Qt5 Declarative
+Dokumentacja do bibliotek Qt5 Declarative w formacie HTML.
+
+%package doc-qch
+Summary:	Qt5 Declarative documentation in QCH format
+Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Declarative w formacie QCH
+Group:		Documentation
+Requires:	qt5-doc-common >= %{qtbase_ver}
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
+
+%description doc-qch
+Qt5 Declarative documentation in QCH format.
+
+%description doc-qch -l pl.UTF-8
+Dokumentacja do bibliotek Qt5 Declarative w formacie QCH.
 
 %package examples
 Summary:	Qt5 Declarative examples
-Summary(pl.UTF-8):	Przykłady do biblioteki Qt5 Declarative
+Summary(pl.UTF-8):	Przykłady do bibliotek Qt5 Declarative
 Group:		X11/Development/Libraries
 %if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
@@ -90,7 +105,7 @@ BuildArch:	noarch
 Qt5 Declarative examples.
 
 %description examples -l pl.UTF-8
-Przykłady do biblioteki Qt5 Declarative.
+Przykłady do bibliotek Qt5 Declarative.
 
 %prep
 %setup -q -n %{orgname}-opensource-src-%{version}
@@ -160,21 +175,32 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_bindir}/*
+# R: Core Gui Qml Widgets
 %attr(755,root,root) %{_bindir}/qml-qt5
+# R: Core Qml
 %attr(755,root,root) %{_bindir}/qmlbundle-qt5
+# R: Core
 %attr(755,root,root) %{_bindir}/qmlimportscanner-qt5
+# R: Core
 %attr(755,root,root) %{_bindir}/qmlmin-qt5
+# R: Core Gui Qml Quick
 %attr(755,root,root) %{_bindir}/qmlplugindump-qt5
+# R: Core Network
 %attr(755,root,root) %{_bindir}/qmlprofiler-qt5
+# R: Core Gui Qml Quick Widgets
 %attr(755,root,root) %{_bindir}/qmlscene-qt5
+# R: QuickTest
 %attr(755,root,root) %{_bindir}/qmltestrunner-qt5
+# R: Core Network
 %attr(755,root,root) %{_libdir}/libQt5Qml.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5Qml.so.5
+# R: Core Gui Network Qml
 %attr(755,root,root) %{_libdir}/libQt5Quick.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5Quick.so.5
+# R: Core Gui Qml Quick
 %attr(755,root,root) %{_libdir}/libQt5QuickParticles.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickParticles.so.5
+# R: Gui Qml Quick Test Widgets
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickTest.so.5
 %attr(755,root,root) %{qt5dir}/bin/qml
@@ -185,55 +211,68 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/bin/qmlprofiler
 %attr(755,root,root) %{qt5dir}/bin/qmlscene
 %attr(755,root,root) %{qt5dir}/bin/qmltestrunner
-%dir %{qt5dir}/plugins/accessible
+# R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/accessible/libqtaccessiblequick.so
 %dir %{qt5dir}/plugins/qmltooling
+# R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_qtquick2.so
+# R: Core Network Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_tcp.so
 %dir %{qt5dir}/qml
 %dir %{qt5dir}/qml/Qt
 %dir %{qt5dir}/qml/Qt/labs
 %dir %{qt5dir}/qml/Qt/labs/folderlistmodel
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/Qt/labs/folderlistmodel/libqmlfolderlistmodelplugin.so
 %{qt5dir}/qml/Qt/labs/folderlistmodel/plugins.qmltypes
 %{qt5dir}/qml/Qt/labs/folderlistmodel/qmldir
 %dir %{qt5dir}/qml/Qt/labs/settings
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/Qt/labs/settings/libqmlsettingsplugin.so
 %{qt5dir}/qml/Qt/labs/settings/plugins.qmltypes
 %{qt5dir}/qml/Qt/labs/settings/qmldir
 %dir %{qt5dir}/qml/QtQml
 %dir %{qt5dir}/qml/QtQml/Models.2
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/QtQml/Models.2/libmodelsplugin.so
 %{qt5dir}/qml/QtQml/Models.2/qmldir
 %dir %{qt5dir}/qml/QtQuick
 %dir %{qt5dir}/qml/QtQuick/Dialogs
+# R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Dialogs/libdialogplugin.so
 %{qt5dir}/qml/QtQuick/Dialogs/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Dialogs/qmldir
 %dir %{qt5dir}/qml/QtQuick/Dialogs/Private
+# R: Core Gui Qml
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Dialogs/Private/libdialogsprivateplugin.so
 %{qt5dir}/qml/QtQuick/Dialogs/Private/qmldir
 %dir %{qt5dir}/qml/QtQuick/LocalStorage
+# R: Core Qml Sql
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/LocalStorage/libqmllocalstorageplugin.so
 %{qt5dir}/qml/QtQuick/LocalStorage/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/LocalStorage/qmldir
 %dir %{qt5dir}/qml/QtQuick/Particles.2
+# R: Core Qml QuickParticles
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Particles.2/libparticlesplugin.so
 %{qt5dir}/qml/QtQuick/Particles.2/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Particles.2/qmldir
 %dir %{qt5dir}/qml/QtQuick/PrivateWidgets
+# R: Core Gui Qml Quick Widgets
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/PrivateWidgets/libwidgetsplugin.so
 %{qt5dir}/qml/QtQuick/PrivateWidgets/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/PrivateWidgets/qmldir
 %dir %{qt5dir}/qml/QtQuick/Window.2
+# R: Core Qml Quick
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Window.2/libwindowplugin.so
 %{qt5dir}/qml/QtQuick/Window.2/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Window.2/qmldir
 %dir %{qt5dir}/qml/QtQuick.2
+# R: Core Qml Quick
 %attr(755,root,root) %{qt5dir}/qml/QtQuick.2/libqtquick2plugin.so
 %{qt5dir}/qml/QtQuick.2/plugins.qmltypes
 %{qt5dir}/qml/QtQuick.2/qmldir
 %dir %{qt5dir}/qml/QtTest
+# R: Core Gui Qml QuickTest Test
 %attr(755,root,root) %{qt5dir}/qml/QtTest/libqmltestplugin.so
 %{qt5dir}/qml/QtTest/plugins.qmltypes
 %{qt5dir}/qml/QtTest/qmldir
@@ -242,10 +281,15 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+# R: Core Network
 %attr(755,root,root) %{_libdir}/libQt5Qml.so
+# R: Core Gui Network Qml
 %attr(755,root,root) %{_libdir}/libQt5Quick.so
+# R: Core Gui Network Qml Quick
 %attr(755,root,root) %{_libdir}/libQt5QuickParticles.so
+# R: Core Gui Widgets
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so
+# R: Core
 %{_libdir}/libQt5QmlDevTools.a
 
 %{_libdir}/libQt5Qml.prl
@@ -286,7 +330,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_docdir}/qt5-doc/qtquickdialogs
 
 %if %{with qch}
-#%files doc-qch
+%files doc-qch
+%defattr(644,root,root,755)
 %{_docdir}/qt5-doc/qtqml.qch
 %{_docdir}/qt5-doc/qtquick.qch
 %{_docdir}/qt5-doc/qtquickdialogs.qch
