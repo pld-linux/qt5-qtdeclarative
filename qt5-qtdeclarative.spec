@@ -1,4 +1,3 @@
-# TODO: QtQml / QtQuick split?
 #
 # Conditional build:
 %bcond_without	qch	# documentation in QCH format
@@ -10,8 +9,8 @@ Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
 Version:	5.2.1
-Release:	0.1
-License:	LGPL v2.1 or GPL v3.0
+Release:	1
+License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/5.2/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
 # Source0-md5:	a23fba03a4b48f36fe8b51d326d08acc
@@ -31,6 +30,20 @@ BuildRequires:	qt5-qmake >= %{qtbase_ver}
 BuildRequires:	rpmbuild(macros) >= 1.654
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
+# qml: Core Gui Qml Widgets
+# qmlbundle: Core Gui
+# qmlimportscanner: Core
+# qmlmin: Core
+# qmlplugindump: Core Gui Qml Quick
+# qmlprofilter: Core Network
+# qmlscene: Core Gui Qml Quick Widgets
+# qmltestrunner: QuickTest
+Requires:	Qt5Core >= %{qtbase_ver}
+Requires:	Qt5Gui >= %{qtbase_ver}
+Requires:	Qt5Network >= %{qtbase_ver}
+Requires:	Qt5Qml = %{version}-%{release}
+Requires:	Qt5Quick = %{version}-%{release}
+Requires:	Qt5Widgets >= %{qtbase_ver}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		specflags	-fno-strict-aliasing
@@ -51,17 +64,106 @@ systemach biurkowych, przenośnych i wbudowanych bez przepisywania kodu
 
 Ten pakiet zawiera biblioteki Qt5 Declarative.
 
-%package devel
-Summary:	The Qt5 Declarative application framework - development files
-Summary(pl.UTF-8):	Szkielet aplikacji Qt5 Declarative - pliki programistyczne
+%package -n Qt5Qml
+Summary:	Qt5 Qml libraries
+Summary(pl.UTF-8):	Biblioteki Qt5 Qml
+Group:		Libraries
+# Qt5Qml: Core Network
+Requires:	Qt5Core >= %{qtbase_ver}
+Requires:	Qt5Network >= %{qtbase_ver}
+
+%description -n Qt5Qml
+The Qt5 QML module provides a framework for developing applications
+and libraries with the QML language. It defines and implements the
+language and engine infrastructure, and provides an API to enable
+application developers to extend the QML language with custom types
+and integrate QML code with JavaScript and C++. The Qt5 QML module
+provides both a QML API and a C++ API.
+
+%description -n Qt5Qml -l pl.UTF-8
+Moduł Qt5 Qml dostarcza szkielet do tworzenia aplikacji i bibliotek
+przy użyciu języka QML. Moduł definiuje i implementuje język oraz
+silnik, a także udostąpnia API pozwalające programistom rozszerzać
+język QML o własne typy oraz integrować kod w języku QML z
+JavaScriptem i C++. Moduł Qt5 QML udostępnia API zarówno dla języka
+QML, jak i C++.
+
+%package -n Qt5Qml-devel
+Summary:	Qt5 Qml libraries - development files
+Summary(pl.UTF-8):	Biblioteki Qt5 Qml - pliki programistyczne
+Group:		Development/Libraries
+# Qt5Qml: Core Network
+# Qt5QmlDevTools: Core
+Requires:	Qt5Core-devel >= %{qtbase_ver}
+Requires:	Qt5Network-devel >= %{qtbase_ver}
+Requires:	Qt5Qml = %{version}-%{release}
+Obsoletes:	qt5-qtdeclarative-devel
+
+%description -n Qt5Qml-devel
+Qt5 Qml libraries - development files.
+
+%description -n Qt5Qml-devel -l pl.UTF-8
+Biblioteki Qt5 Qml - pliki programistyczne.
+
+%package -n Qt5Quick
+Summary:	Qt5 Quick libraries
+Summary(pl.UTF-8):	Biblioteki Qt5 Quick
+Group:		X11/Libraries
+# Qt5Quick: Core Gui Network Qml
+# Qt5QuickParticles: Core Gui Qml Quick
+# Qt5QuickTest: Gui Qml Quick Test Widgets
+Requires:	Qt5Core >= %{qtbase_ver}
+Requires:	Qt5Gui >= %{qtbase_ver}
+Requires:	Qt5Network >= %{qtbase_ver}
+Requires:	Qt5Qml = %{version}-%{release}
+Requires:	Qt5Test >= %{qtbase_ver}
+Requires:	Qt5Widgets >= %{qtbase_ver}
+
+%description -n Qt5Quick
+The Qt5 Quick module is the standard library for writing QML
+applications. While the Qt5 QML module provides the QML engine and
+language infrastructure, the Qt5 Quick module provides all the basic
+types necessary for creating user interfaces with QML. It provides a
+visual canvas and includes types for creating and animating visual
+components, receiving user input, creating data models and views and
+delayed object instantiation.
+
+The Qt5 Quick module provides both a QML API which supplies QML types
+for creating user interfaces with the QML language, and a C++ API for
+extending QML applications with C++ code.
+
+%description -n Qt5Quick -l pl.UTF-8
+Moduł Qt5 Quick to biblioteka standardowa do pisania aplikacji QML.
+Sam moduł Qt5 QML dostarcza silnik i infrastrukturę języka, natomiast
+moduł Qt5 Quick udostępnia wszystkie podstawowe typy niezbędne do
+tworzenia interfejsu użytkownika przy użyciu języka QML. Udostępnia
+graficzne "płótno", zawiera typy do tworzenia i animowania komponentów
+graficznych, odczytu wejścia od użytkownika, tworzenia modeli i
+widoków danych oraz opóźnionych instancji obiektów.
+
+Moduł Qt5 Quick dostarcza API zarówno dla języka QML, zapewniające
+typy QML do tworzenia interfejsów użytkownika w języku QML, jak i dla
+języka C++ do rozszerzania aplikacji QML przy użyciu kodu w C++.
+
+%package -n Qt5Quick-devel
+Summary:	Qt5 Qml libraries - development files
+Summary(pl.UTF-8):	Biblioteki Qt5 Qml - pliki programistyczne
 Group:		X11/Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+# Qt5Quick: Core Gui Network Qml
+# Qt5QuickParticles: Core Gui Network Qml Quick
+# Qt5QuickTest: Core Gui Widgets
+Requires:	Qt5Core >= %{qtbase_ver}
+Requires:	Qt5Gui >= %{qtbase_ver}
+Requires:	Qt5Network >= %{qtbase_ver}
+Requires:	Qt5Qml-devel = %{version}-%{release}
+Requires:	Qt5Quick = %{version}-%{release}
+Requires:	Qt5Widgets >= %{qtbase_ver}
 
-%description devel
-The Qt5 Declarative application framework - development files.
+%description -n Qt5Quick-devel
+Qt5 Qml libraries - development files.
 
-%description devel -l pl.UTF-8
-Szkielet aplikacji Qt5 Declarative - pliki programistyczne.
+%description -n Qt5Quick-devel -l pl.UTF-8
+Biblioteki Qt5 Qml - pliki programistyczne.
 
 %package doc
 Summary:	Qt5 Declarative documentation in HTML format
@@ -170,39 +272,22 @@ ifecho_tree examples %{_examplesdir}/qt5/quick
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
+%post	-n Qt5Qml -p /sbin/ldconfig
+%postun	-n Qt5Qml -p /sbin/ldconfig
+
+%post	-n Qt5Quick -p /sbin/ldconfig
+%postun	-n Qt5Quick -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-# R: Core Gui Qml Widgets
 %attr(755,root,root) %{_bindir}/qml-qt5
-# R: Core Qml
 %attr(755,root,root) %{_bindir}/qmlbundle-qt5
-# R: Core
 %attr(755,root,root) %{_bindir}/qmlimportscanner-qt5
-# R: Core
 %attr(755,root,root) %{_bindir}/qmlmin-qt5
-# R: Core Gui Qml Quick
 %attr(755,root,root) %{_bindir}/qmlplugindump-qt5
-# R: Core Network
 %attr(755,root,root) %{_bindir}/qmlprofiler-qt5
-# R: Core Gui Qml Quick Widgets
 %attr(755,root,root) %{_bindir}/qmlscene-qt5
-# R: QuickTest
 %attr(755,root,root) %{_bindir}/qmltestrunner-qt5
-# R: Core Network
-%attr(755,root,root) %{_libdir}/libQt5Qml.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5Qml.so.5
-# R: Core Gui Network Qml
-%attr(755,root,root) %{_libdir}/libQt5Quick.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5Quick.so.5
-# R: Core Gui Qml Quick
-%attr(755,root,root) %{_libdir}/libQt5QuickParticles.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5QuickParticles.so.5
-# R: Gui Qml Quick Test Widgets
-%attr(755,root,root) %{_libdir}/libQt5QuickTest.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libQt5QuickTest.so.5
 %attr(755,root,root) %{qt5dir}/bin/qml
 %attr(755,root,root) %{qt5dir}/bin/qmlbundle
 %attr(755,root,root) %{qt5dir}/bin/qmlimportscanner
@@ -211,13 +296,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/bin/qmlprofiler
 %attr(755,root,root) %{qt5dir}/bin/qmlscene
 %attr(755,root,root) %{qt5dir}/bin/qmltestrunner
-# R: Core Gui Qml Quick
-%attr(755,root,root) %{qt5dir}/plugins/accessible/libqtaccessiblequick.so
+
+%files -n Qt5Qml
+%defattr(644,root,root,755)
+%doc LGPL_EXCEPTION.txt
+%attr(755,root,root) %{_libdir}/libQt5Qml.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5Qml.so.5
+
+# loaded from src/qml/debugger/{qqmldebugserver,qqmlinspectorservice}.cpp
 %dir %{qt5dir}/plugins/qmltooling
-# R: Core Gui Qml Quick
-%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_qtquick2.so
 # R: Core Network Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_tcp.so
+
 %dir %{qt5dir}/qml
 %dir %{qt5dir}/qml/Qt
 %dir %{qt5dir}/qml/Qt/labs
@@ -236,6 +326,39 @@ rm -rf $RPM_BUILD_ROOT
 # R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/QtQml/Models.2/libmodelsplugin.so
 %{qt5dir}/qml/QtQml/Models.2/qmldir
+
+%files -n Qt5Qml-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQt5Qml.so
+# static-only
+%{_libdir}/libQt5QmlDevTools.a
+%{_libdir}/libQt5Qml.prl
+%{_libdir}/libQt5QmlDevTools.prl
+%{_includedir}/qt5/QtQml
+%{_pkgconfigdir}/Qt5Qml.pc
+%{_pkgconfigdir}/Qt5QmlDevTools.pc
+%{_libdir}/cmake/Qt5Qml
+%{qt5dir}/mkspecs/modules/qt_lib_qml.pri
+%{qt5dir}/mkspecs/modules/qt_lib_qml_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_qmldevtools_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_qmltest.pri
+%{qt5dir}/mkspecs/modules/qt_lib_qmltest_private.pri
+
+%files -n Qt5Quick
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libQt5Quick.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5Quick.so.5
+%attr(755,root,root) %{_libdir}/libQt5QuickParticles.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5QuickParticles.so.5
+%attr(755,root,root) %{_libdir}/libQt5QuickTest.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5QuickTest.so.5
+
+# R: Core Gui Qml Quick
+%attr(755,root,root) %{qt5dir}/plugins/accessible/libqtaccessiblequick.so
+
+# R: Core Gui Qml Quick
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_qtquick2.so
+
 %dir %{qt5dir}/qml/QtQuick
 %dir %{qt5dir}/qml/QtQuick/Dialogs
 # R: Core Gui Qml Quick
@@ -279,46 +402,23 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/qml/QtTest/testlogger.js
 %{qt5dir}/qml/QtTest/*.qml
 
-%files devel
+%files -n Qt5Quick-devel
 %defattr(644,root,root,755)
-# R: Core Network
-%attr(755,root,root) %{_libdir}/libQt5Qml.so
-# R: Core Gui Network Qml
 %attr(755,root,root) %{_libdir}/libQt5Quick.so
-# R: Core Gui Network Qml Quick
 %attr(755,root,root) %{_libdir}/libQt5QuickParticles.so
-# R: Core Gui Widgets
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so
-# R: Core
-%{_libdir}/libQt5QmlDevTools.a
-
-%{_libdir}/libQt5Qml.prl
 %{_libdir}/libQt5Quick.prl
 %{_libdir}/libQt5QuickParticles.prl
 %{_libdir}/libQt5QuickTest.prl
-%{_libdir}/libQt5QmlDevTools.prl
-
-%{_libdir}/cmake/Qt5Qml
-%{_libdir}/cmake/Qt5Quick
-%{_libdir}/cmake/Qt5QuickTest
-%{_libdir}/cmake/Qt5Widgets/Qt5Widgets_AccessibleQuickFactory.cmake
-
-%{_includedir}/qt5/QtQml
 %{_includedir}/qt5/QtQuick
 %{_includedir}/qt5/QtQuickParticles
 %{_includedir}/qt5/QtQuickTest
-
-%{_pkgconfigdir}/Qt5Qml.pc
-%{_pkgconfigdir}/Qt5QmlDevTools.pc
 %{_pkgconfigdir}/Qt5Quick.pc
 %{_pkgconfigdir}/Qt5QuickParticles.pc
 %{_pkgconfigdir}/Qt5QuickTest.pc
-
-%{qt5dir}/mkspecs/modules/qt_lib_qml.pri
-%{qt5dir}/mkspecs/modules/qt_lib_qml_private.pri
-%{qt5dir}/mkspecs/modules/qt_lib_qmldevtools_private.pri
-%{qt5dir}/mkspecs/modules/qt_lib_qmltest.pri
-%{qt5dir}/mkspecs/modules/qt_lib_qmltest_private.pri
+%{_libdir}/cmake/Qt5Quick
+%{_libdir}/cmake/Qt5QuickTest
+%{_libdir}/cmake/Qt5Widgets/Qt5Widgets_AccessibleQuickFactory.cmake
 %{qt5dir}/mkspecs/modules/qt_lib_quick.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quick_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quickparticles_private.pri
