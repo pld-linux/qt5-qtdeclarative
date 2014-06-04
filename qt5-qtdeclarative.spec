@@ -8,12 +8,12 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.2.1
+Version:	5.3.0
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qt-project.org/official_releases/qt/5.2/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	a23fba03a4b48f36fe8b51d326d08acc
+Source0:	http://download.qt-project.org/official_releases/qt/5.3/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
+# Source0-md5:	9e29d2b481c771ce5c798a3319835673
 URL:		http://qt-project.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -352,6 +352,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickParticles.so.5
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickTest.so.5
+%attr(755,root,root) %{_libdir}/libQt5QuickWidgets.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5QuickWidgets.so.5
 
 # R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/accessible/libqtaccessiblequick.so
@@ -360,15 +362,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_qtquick2.so
 
 %dir %{qt5dir}/qml/QtQuick
-%dir %{qt5dir}/qml/QtQuick/Dialogs
-# R: Core Gui Qml Quick
-%attr(755,root,root) %{qt5dir}/qml/QtQuick/Dialogs/libdialogplugin.so
-%{qt5dir}/qml/QtQuick/Dialogs/plugins.qmltypes
-%{qt5dir}/qml/QtQuick/Dialogs/qmldir
-%dir %{qt5dir}/qml/QtQuick/Dialogs/Private
-# R: Core Gui Qml
-%attr(755,root,root) %{qt5dir}/qml/QtQuick/Dialogs/Private/libdialogsprivateplugin.so
-%{qt5dir}/qml/QtQuick/Dialogs/Private/qmldir
 %dir %{qt5dir}/qml/QtQuick/LocalStorage
 # R: Core Qml Sql
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/LocalStorage/libqmllocalstorageplugin.so
@@ -379,11 +372,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Particles.2/libparticlesplugin.so
 %{qt5dir}/qml/QtQuick/Particles.2/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Particles.2/qmldir
-%dir %{qt5dir}/qml/QtQuick/PrivateWidgets
-# R: Core Gui Qml Quick Widgets
-%attr(755,root,root) %{qt5dir}/qml/QtQuick/PrivateWidgets/libwidgetsplugin.so
-%{qt5dir}/qml/QtQuick/PrivateWidgets/plugins.qmltypes
-%{qt5dir}/qml/QtQuick/PrivateWidgets/qmldir
 %dir %{qt5dir}/qml/QtQuick/Window.2
 # R: Core Qml Quick
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Window.2/libwindowplugin.so
@@ -407,36 +395,41 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQt5Quick.so
 %attr(755,root,root) %{_libdir}/libQt5QuickParticles.so
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so
+%attr(755,root,root) %{_libdir}/libQt5QuickWidgets.so
 %{_libdir}/libQt5Quick.prl
 %{_libdir}/libQt5QuickParticles.prl
 %{_libdir}/libQt5QuickTest.prl
+%{_libdir}/libQt5QuickWidgets.prl
 %{_includedir}/qt5/QtQuick
 %{_includedir}/qt5/QtQuickParticles
 %{_includedir}/qt5/QtQuickTest
+%{_includedir}/qt5/QtQuickWidgets
 %{_pkgconfigdir}/Qt5Quick.pc
 %{_pkgconfigdir}/Qt5QuickParticles.pc
 %{_pkgconfigdir}/Qt5QuickTest.pc
+%{_pkgconfigdir}/Qt5QuickWidgets.pc
 %{_libdir}/cmake/Qt5Quick
 %{_libdir}/cmake/Qt5QuickTest
-%{_libdir}/cmake/Qt5Widgets/Qt5Widgets_AccessibleQuickFactory.cmake
+%{_libdir}/cmake/Qt5QuickWidgets
 %{qt5dir}/mkspecs/modules/qt_lib_quick.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quick_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quickparticles_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_quickwidgets.pri
+%{qt5dir}/mkspecs/modules/qt_lib_quickwidgets_private.pri
 
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/qt5-doc/qtqml
 %{_docdir}/qt5-doc/qtquick
-%{_docdir}/qt5-doc/qtquickdialogs
 
 %if %{with qch}
 %files doc-qch
 %defattr(644,root,root,755)
 %{_docdir}/qt5-doc/qtqml.qch
 %{_docdir}/qt5-doc/qtquick.qch
-%{_docdir}/qt5-doc/qtquickdialogs.qch
 %endif
 
 %files examples -f examples.files
+%defattr(644,root,root,755)
 # XXX: dir shared with qt5-qtbase-examples
 %dir %{_examplesdir}/qt5
