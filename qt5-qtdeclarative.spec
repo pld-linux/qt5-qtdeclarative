@@ -411,9 +411,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickWidgets.so.5
 
 # R: Core Gui Qml Quick
-%attr(755,root,root) %{qt5dir}/plugins/accessible/libqtaccessiblequick.so
-
-# R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_qtquick2.so
 
 %dir %{qt5dir}/qml/QtQuick
