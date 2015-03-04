@@ -1,0 +1,14 @@
+--- qtdeclarative-opensource-src-5.4.1/src/qml/jsruntime/qv4global_p.h~	2015-02-17 05:57:27.000000000 +0100
++++ qtdeclarative-opensource-src-5.4.1/src/qml/jsruntime/qv4global_p.h	2015-03-04 09:00:49.213556819 +0100
+@@ -69,9 +69,9 @@
+ //
+ // NOTE: This should match the logic in qv4targetplatform_p.h!
+ 
+-#if defined(Q_PROCESSOR_X86) && (defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_QNX) || defined(Q_OS_FREEBSD))
++#if defined(Q_PROCESSOR_X86) && !defined(__ILP32__) && (defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_QNX) || defined(Q_OS_FREEBSD))
+ #define V4_ENABLE_JIT
+-#elif defined(Q_PROCESSOR_X86_64) && (defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_MAC) || defined(Q_OS_FREEBSD))
++#elif defined(Q_PROCESSOR_X86_64) && !defined(__ILP32__) && (defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_MAC) || defined(Q_OS_FREEBSD))
+ #define V4_ENABLE_JIT
+ #elif defined(Q_PROCESSOR_ARM_32)
+ 
