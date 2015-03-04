@@ -12,7 +12,7 @@ Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
 Version:	5.4.1
-Release:	1
+Release:	2
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/5.4/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
@@ -279,7 +279,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
 # symlinks in system bin dir
-for f in qml qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner ; do
+for f in qml qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner qmleasing qmllint ; do
 	ln -sf ../%{_lib}/qt5/bin/$f $RPM_BUILD_ROOT%{_bindir}/${f}-qt5
 done
 
@@ -335,17 +335,21 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qml-qt5
 %attr(755,root,root) %{_bindir}/qmlbundle-qt5
+%attr(755,root,root) %{_bindir}/qmleasing-qt5
 %attr(755,root,root) %{_bindir}/qmlimportscanner-qt5
+%attr(755,root,root) %{_bindir}/qmllint-qt5
 %attr(755,root,root) %{_bindir}/qmlmin-qt5
 %attr(755,root,root) %{_bindir}/qmlplugindump-qt5
 %attr(755,root,root) %{_bindir}/qmlprofiler-qt5
+%attr(755,root,root) %{_bindir}/qml-qt5
 %attr(755,root,root) %{_bindir}/qmlscene-qt5
 %attr(755,root,root) %{_bindir}/qmltestrunner-qt5
 %attr(755,root,root) %{qt5dir}/bin/qml
 %attr(755,root,root) %{qt5dir}/bin/qmlbundle
+%attr(755,root,root) %{qt5dir}/bin/qmleasing
 %attr(755,root,root) %{qt5dir}/bin/qmlimportscanner
+%attr(755,root,root) %{qt5dir}/bin/qmllint
 %attr(755,root,root) %{qt5dir}/bin/qmlmin
 %attr(755,root,root) %{qt5dir}/bin/qmlplugindump
 %attr(755,root,root) %{qt5dir}/bin/qmlprofiler
@@ -378,9 +382,14 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/qml/Qt/labs/settings/qmldir
 %dir %{qt5dir}/qml/QtQml
 %dir %{qt5dir}/qml/QtQml/Models.2
+%dir %{qt5dir}/qml/QtQml/StateMachine
 # R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/QtQml/Models.2/libmodelsplugin.so
 %{qt5dir}/qml/QtQml/Models.2/qmldir
+
+%attr(755,root,root) %{qt5dir}/qml/QtQml/StateMachine/libqtqmlstatemachine.so
+%{qt5dir}/qml/QtQml/StateMachine/plugins.qmltypes
+%{qt5dir}/qml/QtQml/StateMachine/qmldir
 
 %files -n Qt5Qml-devel
 %defattr(644,root,root,755)
