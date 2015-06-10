@@ -27,7 +27,6 @@ Source0:	http://download.qt-project.org/official_releases/qt/5.4/%{version}/subm
 # Source0-md5:	5b257cd097c315dab1b3c15e26211823
 Source1:	http://download.qt-project.org/official_releases/qt/5.4/%{version}/submodules/qttranslations-opensource-src-%{version}.tar.xz
 # Source1-md5:	35151a736e3b720de4f5128386f9c834
-Patch0:		x32.patch
 URL:		http://qt-project.org/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -243,9 +242,6 @@ Przykłady do bibliotek Qt5 Declarative.
 
 %prep
 %setup -q -n %{orgname}-opensource-src-%{version} %{?with_qm:-a1}
-%ifarch x32
-%patch0 -p1
-%endif
 
 %build
 qmake-qt5
