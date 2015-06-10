@@ -1,8 +1,16 @@
 #
 # Conditional build:
+%bcond_with	bootstrap	# disable features to able to build without installed qt5
+# -- build targets
 %bcond_without	qch		# documentation in QCH format
 %bcond_without	qm		# QM translations
 %bcond_without	qtxmlpatterns	# XmlListModel plugin (Qt5XmlPatterns based)
+
+%if %{with bootstrap}
+%undefine	with_qch
+%undefine	with_qm
+%undefine	with_qtxmlpatterns
+%endif
 
 %define		orgname		qtdeclarative
 %define		qtbase_ver		%{version}
@@ -11,14 +19,14 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.4.1
-Release:	2
+Version:	5.4.2
+Release:	0.1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt-project.org/official_releases/qt/5.4/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	86dfe5c41e14a142c72fdaa6a64f933c
+# Source0-md5:	5b257cd097c315dab1b3c15e26211823
 Source1:	http://download.qt-project.org/official_releases/qt/5.4/%{version}/submodules/qttranslations-opensource-src-%{version}.tar.xz
-# Source1-md5:	0bdd1b0a83b03a04a4ebeedfa3057d21
+# Source1-md5:	35151a736e3b720de4f5128386f9c834
 Patch0:		x32.patch
 URL:		http://qt-project.org/
 BuildRequires:	OpenGL-devel
