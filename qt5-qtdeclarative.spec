@@ -14,7 +14,7 @@
 
 %define		orgname		qtdeclarative
 %define		qtbase_ver		%{version}
-%define		qttools_ver		%{version}
+%define		qttools_ver		5.4
 %define		qtxmlpatterns_ver	%{version}
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
