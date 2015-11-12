@@ -19,15 +19,15 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.4.2
+Version:	5.5.1
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qt-project.org/official_releases/qt/5.4/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	5b257cd097c315dab1b3c15e26211823
-Source1:	http://download.qt-project.org/official_releases/qt/5.4/%{version}/submodules/qttranslations-opensource-src-%{version}.tar.xz
-# Source1-md5:	35151a736e3b720de4f5128386f9c834
-URL:		http://qt-project.org/
+Source0:	http://download.qt.io/official_releases/qt/5.5/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
+# Source0-md5:	b7997c9d8df4ea60945229883f9ce8ed
+Source1:	http://download.qt.io/official_releases/qt/5.5/%{version}/submodules/qttranslations-opensource-src-%{version}.tar.xz
+# Source1-md5:	1f89d53fe759db123b4b6d9de9d9e8c9
+URL:		http://www.qt.io/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Gui-devel >= %{qtbase_ver}
@@ -46,7 +46,6 @@ BuildRequires:	rpmbuild(macros) >= 1.654
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 # qml: Core Gui Qml Widgets
-# qmlbundle: Core Gui
 # qmlimportscanner: Core
 # qmlmin: Core
 # qmlplugindump: Core Gui Qml Quick
@@ -269,7 +268,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__make} -C qttranslations-opensource-src-%{version} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 # keep only qtdeclarative
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/qt5/translations/{assistant,designer,linguist,qmlviewer,qt,qtbase,qtconfig,qtconnectivity,qtlocation,qtmultimedia,qtquick1,qtquickcontrols,qtscript,qtxmlpatterns}_*.qm
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/qt5/translations/{assistant,designer,linguist,qmlviewer,qt,qtbase,qtconfig,qtconnectivity,qtlocation,qtmultimedia,qtquick1,qtquickcontrols,qtscript,qtwebsockets,qtxmlpatterns}_*.qm
 %endif
 
 # kill unnecessary -L%{_libdir} from *.la, *.prl, *.pc
@@ -283,7 +282,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
 # symlinks in system bin dir
-for f in qml qmlbundle qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner qmleasing qmllint ; do
+for f in qml qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner qmleasing qmllint ; do
 	ln -sf ../%{_lib}/qt5/bin/$f $RPM_BUILD_ROOT%{_bindir}/${f}-qt5
 done
 
@@ -339,7 +338,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/qmlbundle-qt5
 %attr(755,root,root) %{_bindir}/qmleasing-qt5
 %attr(755,root,root) %{_bindir}/qmlimportscanner-qt5
 %attr(755,root,root) %{_bindir}/qmllint-qt5
@@ -350,7 +348,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qmlscene-qt5
 %attr(755,root,root) %{_bindir}/qmltestrunner-qt5
 %attr(755,root,root) %{qt5dir}/bin/qml
-%attr(755,root,root) %{qt5dir}/bin/qmlbundle
 %attr(755,root,root) %{qt5dir}/bin/qmleasing
 %attr(755,root,root) %{qt5dir}/bin/qmlimportscanner
 %attr(755,root,root) %{qt5dir}/bin/qmllint
@@ -389,6 +386,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/qml/QtQml/StateMachine
 # R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/QtQml/Models.2/libmodelsplugin.so
+%{qt5dir}/qml/QtQml/Models.2/plugins.qmltypes
 %{qt5dir}/qml/QtQml/Models.2/qmldir
 
 %attr(755,root,root) %{qt5dir}/qml/QtQml/StateMachine/libqtqmlstatemachine.so
@@ -403,6 +401,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libQt5Qml.prl
 %{_libdir}/libQt5QmlDevTools.prl
 %{_includedir}/qt5/QtQml
+%{_includedir}/qt5/QtQmlDevTools
 %{_pkgconfigdir}/Qt5Qml.pc
 %{_pkgconfigdir}/Qt5QmlDevTools.pc
 %{_libdir}/cmake/Qt5Qml
