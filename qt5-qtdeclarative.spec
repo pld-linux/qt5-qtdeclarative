@@ -166,12 +166,12 @@ Group:		X11/Development/Libraries
 # Qt5Quick: Core Gui Network Qml
 # Qt5QuickParticles: Core Gui Network Qml Quick
 # Qt5QuickTest: Core Gui Widgets
-Requires:	Qt5Core >= %{qtbase_ver}
-Requires:	Qt5Gui >= %{qtbase_ver}
-Requires:	Qt5Network >= %{qtbase_ver}
+Requires:	Qt5Core-devel >= %{qtbase_ver}
+Requires:	Qt5Gui-devel >= %{qtbase_ver}
+Requires:	Qt5Network-devel >= %{qtbase_ver}
 Requires:	Qt5Qml-devel = %{version}-%{release}
 Requires:	Qt5Quick = %{version}-%{release}
-Requires:	Qt5Widgets >= %{qtbase_ver}
+Requires:	Qt5Widgets-devel >= %{qtbase_ver}
 
 %description -n Qt5Quick-devel
 Qt5 Qml libraries - development files.
