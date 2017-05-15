@@ -2,11 +2,13 @@
 # Conditional build:
 %bcond_with	bootstrap	# disable features to able to build without installed qt5
 # -- build targets
+%bcond_without	doc
 %bcond_without	qch		# documentation in QCH format
 %bcond_without	qm		# QM translations
 %bcond_without	qtxmlpatterns	# XmlListModel plugin (Qt5XmlPatterns based)
 
 %if %{with bootstrap}
+%undefine	with_doc
 %undefine	with_qch
 %undefine	with_qm
 %undefine	with_qtxmlpatterns
@@ -14,19 +16,19 @@
 
 %define		orgname		qtdeclarative
 %define		qtbase_ver		%{version}
-%define		qttools_ver		5.4
+%define		qttools_ver		5.8
 %define		qtxmlpatterns_ver	%{version}
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.5.1
-Release:	1
+Version:	5.8.0
+Release:	0.1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.5/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
-# Source0-md5:	b7997c9d8df4ea60945229883f9ce8ed
-Source1:	http://download.qt.io/official_releases/qt/5.5/%{version}/submodules/qttranslations-opensource-src-%{version}.tar.xz
-# Source1-md5:	1f89d53fe759db123b4b6d9de9d9e8c9
+Source0:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/%{orgname}-opensource-src-%{version}.tar.xz
+# Source0-md5:	4f55b3617abdff14706d02d761d5a0aa
+Source1:	http://download.qt.io/official_releases/qt/5.8/%{version}/submodules/qttranslations-opensource-src-%{version}.tar.xz
+# Source1-md5:	b6c6748a923b9639c7d018cfdb04caf4
 URL:		http://www.qt.io/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -245,7 +247,10 @@ Przykłady do bibliotek Qt5 Declarative.
 %build
 qmake-qt5
 %{__make}
+
+%if %{with doc}
 %{__make} %{!?with_qch:html_}docs
+%endif
 
 %if %{with qm}
 cd qttranslations-opensource-src-%{version}
@@ -261,8 +266,10 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__make} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 
+%if %{with doc}
 %{__make} install_%{!?with_qch:html_}docs \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
+%endif
 
 %if %{with qm}
 %{__make} -C qttranslations-opensource-src-%{version} install \
@@ -313,7 +320,7 @@ ifecho_tree examples %{_examplesdir}/qt5/qml
 ifecho_tree examples %{_examplesdir}/qt5/qmltest
 ifecho_tree examples %{_examplesdir}/qt5/quick
 
-# find_lang --with-qm supports only PLD qt3/qt4 specific %{_datadir}/locale/*/LC_MESSAGES layout
+# find_lang --with-qm supports only PLD qt3/qt4 specific %{_localedir}/*/LC_MESSAGES layout
 find_qt5_qm()
 {
 	name="$1"
@@ -366,6 +373,12 @@ rm -rf $RPM_BUILD_ROOT
 # loaded from src/qml/debugger/{qqmldebugserver,qqmlinspectorservice}.cpp
 %dir %{qt5dir}/plugins/qmltooling
 # R: Core Network Qml
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_debugger.so
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_inspector.so
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_local.so
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_native.so
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_profiler.so
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_server.so
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_tcp.so
 
 %dir %{qt5dir}/qml
@@ -393,20 +406,31 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/qml/QtQml/StateMachine/plugins.qmltypes
 %{qt5dir}/qml/QtQml/StateMachine/qmldir
 
+%{qt5dir}/qml/QtQml/plugins.qmltypes
+%{qt5dir}/qml/QtQml/qmldir
+%{qt5dir}/qml/builtins.qmltypes
+
 %files -n Qt5Qml-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt5Qml.so
 # static-only
+%{_libdir}/libQt5PacketProtocol.a
+%{_libdir}/libQt5PacketProtocol.prl
+%{_libdir}/libQt5QmlDebug.a
+%{_libdir}/libQt5QmlDebug.prl
 %{_libdir}/libQt5QmlDevTools.a
 %{_libdir}/libQt5Qml.prl
 %{_libdir}/libQt5QmlDevTools.prl
 %{_includedir}/qt5/QtQml
+%{_includedir}/qt5/QtQmlDebug
 %{_includedir}/qt5/QtQmlDevTools
+%{_includedir}/qt5/QtPacketProtocol
 %{_pkgconfigdir}/Qt5Qml.pc
-%{_pkgconfigdir}/Qt5QmlDevTools.pc
 %{_libdir}/cmake/Qt5Qml
+%{qt5dir}/mkspecs/modules/qt_lib_packetprotocol_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qml.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qml_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_qmldebug_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qmldevtools_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qmltest.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qmltest_private.pri
@@ -423,9 +447,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickWidgets.so.5
 
 # R: Core Gui Qml Quick
-%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_qtquick2.so
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_quickprofiler.so
 
 %dir %{qt5dir}/qml/QtQuick
+
+%dir %{qt5dir}/qml/QtQuick/Layouts
+%{qt5dir}/qml/QtQuick/Layouts/libqquicklayoutsplugin.so
+%{qt5dir}/qml/QtQuick/Layouts/plugins.qmltypes
+%{qt5dir}/qml/QtQuick/Layouts/qmldir
 
 %dir %{qt5dir}/qml/QtQuick/LocalStorage
 # R: Core Qml Sql
@@ -474,7 +503,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/qt5/QtQuickTest
 %{_includedir}/qt5/QtQuickWidgets
 %{_pkgconfigdir}/Qt5Quick.pc
-%{_pkgconfigdir}/Qt5QuickParticles.pc
 %{_pkgconfigdir}/Qt5QuickTest.pc
 %{_pkgconfigdir}/Qt5QuickWidgets.pc
 %{_libdir}/cmake/Qt5Quick
@@ -496,6 +524,7 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/qml/QtQuick/XmlListModel/qmldir
 %endif
 
+%if %{with doc}
 %files doc
 %defattr(644,root,root,755)
 %{_docdir}/qt5-doc/qtqml
@@ -506,6 +535,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_docdir}/qt5-doc/qtqml.qch
 %{_docdir}/qt5-doc/qtquick.qch
+%endif
 %endif
 
 %files examples -f examples.files
