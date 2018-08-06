@@ -1,0 +1,11 @@
+--- qtdeclarative-everywhere-src-5.11.1/src/qml/jsruntime/qv4global_p.h~	2018-06-15 13:30:15.000000000 +0200
++++ qtdeclarative-everywhere-src-5.11.1/src/qml/jsruntime/qv4global_p.h	2018-08-06 09:12:27.950201394 +0200
+@@ -88,7 +88,7 @@ inline double trunc(double d) { return d
+ //
+ // NOTE: This should match the logic in qv4targetplatform_p.h!
+ 
+-#if defined(Q_PROCESSOR_X86) && (QT_POINTER_SIZE == 4) \
++#if defined(Q_PROCESSOR_X86) && !defined(Q_PROCESSOR_X86_64) && (QT_POINTER_SIZE == 4) \
+     && (defined(Q_OS_WIN) || defined(Q_OS_LINUX) || defined(Q_OS_QNX) || defined(Q_OS_FREEBSD))
+ #  define V4_ENABLE_JIT
+ #elif defined(Q_PROCESSOR_X86_64) && (QT_POINTER_SIZE == 8) \
