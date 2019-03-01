@@ -4,29 +4,26 @@
 # -- build targets
 %bcond_without	doc		# Documentation
 %bcond_without	qm		# QM translations
-%bcond_without	qtxmlpatterns	# XmlListModel plugin (Qt5XmlPatterns based)
 
 %if %{with bootstrap}
 %undefine	with_doc
 %undefine	with_qm
-%undefine	with_qtxmlpatterns
 %endif
 
 %define		orgname		qtdeclarative
 %define		qtbase_ver		%{version}
 %define		qttools_ver		5.8
-%define		qtxmlpatterns_ver	%{version}
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.11.1
-Release:	2
+Version:	5.12.1
+Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.11/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	cc655aaa10c47a84c41e8f0eb3bce112
-Source1:	http://download.qt.io/official_releases/qt/5.11/%{version}/submodules/qttranslations-everywhere-src-%{version}.tar.xz
-# Source1-md5:	67c0dbd61c2b92552b5339d82a94b1a8
+Source0:	http://download.qt.io/official_releases/qt/5.12/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+# Source0-md5:	bd9c6fda177de800da11c176f90189e2
+Source1:	http://download.qt.io/official_releases/qt/5.12/%{version}/submodules/qttranslations-everywhere-src-%{version}.tar.xz
+# Source1-md5:	045ad1eda4d3a272b24b6c60a06b313f
 Patch0:		x32-no-jit.patch
 URL:		http://www.qt.io/
 BuildRequires:	OpenGL-devel
@@ -36,7 +33,6 @@ BuildRequires:	Qt5Network-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Sql-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Test-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Widgets-devel >= %{qtbase_ver}
-%{?with_qtxmlpatterns:BuildRequires:	Qt5XmlPatterns-devel >= %{qtxmlpatterns_ver}}
 %if %{with doc}
 BuildRequires:	qt5-assistant >= %{qttools_ver}
 %endif
@@ -273,7 +269,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__make} -C qttranslations-everywhere-src-%{version} install \
 	INSTALL_ROOT=$RPM_BUILD_ROOT
 # keep only qtdeclarative
-%{__rm} $RPM_BUILD_ROOT%{_datadir}/qt5/translations/{assistant,designer,linguist,qmlviewer,qt,qtbase,qtconnectivity,qtlocation,qtmultimedia,qtquick1,qtquickcontrols,qtquickcontrols2,qtserialport,qtscript,qtwebengine,qtwebsockets,qtxmlpatterns}_*.qm
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/qt5/translations/{assistant,designer,linguist,qt,qtbase,qtconnectivity,qtlocation,qtmultimedia,qtquickcontrols,qtquickcontrols2,qtserialport,qtscript,qtwebengine,qtwebsockets,qtxmlpatterns}_*.qm
 %endif
 
 # kill unnecessary -L%{_libdir} from *.la, *.prl, *.pc
@@ -287,7 +283,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
 # symlinks in system bin dir
-for f in qml qmlcachegen qmlimportscanner qmlmin qmlplugindump qmlprofiler qmlscene qmltestrunner qmleasing qmllint ; do
+for f in qml qmlcachegen qmlimportscanner qmlmin qmlplugindump qmlpreview qmlprofiler qmlscene qmltestrunner qmleasing qmllint ; do
 	ln -sf ../%{_lib}/qt5/bin/$f $RPM_BUILD_ROOT%{_bindir}/${f}-qt5
 done
 
@@ -349,6 +345,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qmllint-qt5
 %attr(755,root,root) %{_bindir}/qmlmin-qt5
 %attr(755,root,root) %{_bindir}/qmlplugindump-qt5
+%attr(755,root,root) %{_bindir}/qmlpreview-qt5
 %attr(755,root,root) %{_bindir}/qmlprofiler-qt5
 %attr(755,root,root) %{_bindir}/qml-qt5
 %attr(755,root,root) %{_bindir}/qmlscene-qt5
@@ -360,6 +357,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/bin/qmllint
 %attr(755,root,root) %{qt5dir}/bin/qmlmin
 %attr(755,root,root) %{qt5dir}/bin/qmlplugindump
+%attr(755,root,root) %{qt5dir}/bin/qmlpreview
 %attr(755,root,root) %{qt5dir}/bin/qmlprofiler
 %attr(755,root,root) %{qt5dir}/bin/qmlscene
 %attr(755,root,root) %{qt5dir}/bin/qmltestrunner
@@ -391,10 +389,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/qml/Qt/labs/folderlistmodel/libqmlfolderlistmodelplugin.so
 %{qt5dir}/qml/Qt/labs/folderlistmodel/plugins.qmltypes
 %{qt5dir}/qml/Qt/labs/folderlistmodel/qmldir
-%dir %{qt5dir}/qml/Qt/labs/handlers
-%{qt5dir}/qml/Qt/labs/handlers/plugins.qmltypes
-%{qt5dir}/qml/Qt/labs/handlers/qmldir
-%attr(755,root,root) %{qt5dir}/qml/Qt/labs/handlers/libhandlersplugin.so
+
+%dir %{qt5dir}/qml/Qt/labs/qmlmodels
+%{qt5dir}/qml/Qt/labs/qmlmodels/plugins.qmltypes
+%{qt5dir}/qml/Qt/labs/qmlmodels/qmldir
+%attr(755,root,root) %{qt5dir}/qml/Qt/labs/qmlmodels/liblabsmodelsplugin.so
 
 %dir %{qt5dir}/qml/Qt/labs/settings
 # R: Core Qml
@@ -406,6 +405,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/qml/Qt/labs/sharedimage/libsharedimageplugin.so
 %{qt5dir}/qml/Qt/labs/sharedimage/plugins.qmltypes
 %{qt5dir}/qml/Qt/labs/sharedimage/qmldir
+
+%dir %{qt5dir}/qml/Qt/labs/wavefrontmesh
+%attr(755,root,root) %{qt5dir}/qml/Qt/labs/wavefrontmesh/libqmlwavefrontmeshplugin.so
+%{qt5dir}/qml/Qt/labs/wavefrontmesh/plugins.qmltypes
+%{qt5dir}/qml/Qt/labs/wavefrontmesh/qmldir
 
 %dir %{qt5dir}/qml/QtQml
 %dir %{qt5dir}/qml/QtQml/Models.2
@@ -454,12 +458,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt5Quick.so.5
 %attr(755,root,root) %{_libdir}/libQt5QuickParticles.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickParticles.so.5
+%attr(755,root,root) %{_libdir}/libQt5QuickShapes.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libQt5QuickShapes.so.5
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickTest.so.5
 %attr(755,root,root) %{_libdir}/libQt5QuickWidgets.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickWidgets.so.5
 
 # R: Core Gui Qml Quick
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_preview.so
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_quickprofiler.so
 
 %dir %{qt5dir}/qml/QtQuick
@@ -510,14 +517,17 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libQt5Quick.so
 %attr(755,root,root) %{_libdir}/libQt5QuickParticles.so
+%attr(755,root,root) %{_libdir}/libQt5QuickShapes.so
 %attr(755,root,root) %{_libdir}/libQt5QuickTest.so
 %attr(755,root,root) %{_libdir}/libQt5QuickWidgets.so
 %{_libdir}/libQt5Quick.prl
 %{_libdir}/libQt5QuickParticles.prl
+%{_libdir}/libQt5QuickShapes.prl
 %{_libdir}/libQt5QuickTest.prl
 %{_libdir}/libQt5QuickWidgets.prl
 %{_includedir}/qt5/QtQuick
 %{_includedir}/qt5/QtQuickParticles
+%{_includedir}/qt5/QtQuickShapes
 %{_includedir}/qt5/QtQuickTest
 %{_includedir}/qt5/QtQuickWidgets
 %{_pkgconfigdir}/Qt5Quick.pc
@@ -531,18 +541,9 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/mkspecs/modules/qt_lib_quick.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quick_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quickparticles_private.pri
+%{qt5dir}/mkspecs/modules/qt_lib_quickshapes_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quickwidgets.pri
 %{qt5dir}/mkspecs/modules/qt_lib_quickwidgets_private.pri
-
-%if %{with qtxmlpatterns}
-%files -n Qt5Quick-xmllistmodel
-%defattr(644,root,root,755)
-%dir %{qt5dir}/qml/QtQuick/XmlListModel
-# R: Core Network Qml XmlPatterns
-%attr(755,root,root) %{qt5dir}/qml/QtQuick/XmlListModel/libqmlxmllistmodelplugin.so
-%{qt5dir}/qml/QtQuick/XmlListModel/plugins.qmltypes
-%{qt5dir}/qml/QtQuick/XmlListModel/qmldir
-%endif
 
 %if %{with doc}
 %files doc
