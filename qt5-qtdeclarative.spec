@@ -169,6 +169,7 @@ Requires:	Qt5Network-devel >= %{qtbase_ver}
 Requires:	Qt5Qml-devel = %{version}-%{release}
 Requires:	Qt5Quick = %{version}-%{release}
 Requires:	Qt5Widgets-devel >= %{qtbase_ver}
+Requires:	qt5-qtdeclarative >= %{qtbase_ver}
 
 %description -n Qt5Quick-devel
 Qt5 Qml libraries - development files.
