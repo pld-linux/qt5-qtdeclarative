@@ -16,14 +16,14 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.13.0
+Version:	5.13.1
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.13/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	c0bd7e6ba774c5fe2bb8ebe3d6cbb6ac
+# Source0-md5:	8bc90f2b14a6953091c2cdb7f84a644c
 Source1:	http://download.qt.io/official_releases/qt/5.13/%{version}/submodules/qttranslations-everywhere-src-%{version}.tar.xz
-# Source1-md5:	071888e332858a1dfd733e2d264cb284
+# Source1-md5:	8f2e2ce52c296a1bfd814610770663ae
 Patch0:		x32-no-jit.patch
 URL:		http://www.qt.io/
 BuildRequires:	OpenGL-devel
@@ -443,7 +443,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/qt5/QtQmlDebug
 %{_includedir}/qt5/QtPacketProtocol
 %{_pkgconfigdir}/Qt5Qml.pc
+%{_libdir}/cmake/Qt5PacketProtocol
 %{_libdir}/cmake/Qt5Qml
+%{_libdir}/cmake/Qt5QmlDebug
+%{_libdir}/cmake/Qt5QmlDevTools
+%{_libdir}/cmake/Qt5QuickParticles
+%{_libdir}/cmake/Qt5QuickShapes
 %{qt5dir}/mkspecs/features/qmlcache.prf
 %{qt5dir}/mkspecs/modules/qt_lib_packetprotocol_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qml.pri
