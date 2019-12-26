@@ -3,7 +3,7 @@
 %bcond_with	bootstrap	# disable features to able to build without installed qt5
 # -- build targets
 %bcond_without	doc		# Documentation
-%bcond_without	jit		# QML just-in-time compiler
+%bcond_with	jit		# QML just-in-time compiler
 %bcond_without	qm		# QM translations
 
 %if %{with bootstrap}
@@ -11,8 +11,9 @@
 %undefine	with_qm
 %endif
 
-%ifarch x32
-%undefine	with_jit
+# requires sse2
+%ifarch pentium4 %{x8664}
+%define		with_jit	1
 %endif
 
 %define		orgname		qtdeclarative
@@ -22,7 +23,7 @@ Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
 Version:	5.14.0
-Release:	1
+Release:	2
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.14/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
