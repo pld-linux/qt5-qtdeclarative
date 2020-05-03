@@ -11,8 +11,8 @@
 %undefine	with_qm
 %endif
 
-# requires sse2
-%ifarch pentium4 %{x8664}
+# requires sse2 on x86
+%ifarch pentium4 %{x8664} aarch64
 %define		with_jit	1
 %endif
 
