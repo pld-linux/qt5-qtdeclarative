@@ -22,14 +22,14 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.14.2
+Version:	5.15.0
 Release:	1
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.14/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	201a05303d4e0fb6189f104a44bceb30
-Source1:	http://download.qt.io/official_releases/qt/5.14/%{version}/submodules/qttranslations-everywhere-src-%{version}.tar.xz
-# Source1-md5:	bcf8b00e49f4fe4271ff4651bf32aca8
+Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
+# Source0-md5:	4f8eb9c5d9c7ceadd52c97eee81d0ad3
+Source1:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/qttranslations-everywhere-src-%{version}.tar.xz
+# Source1-md5:	7cbff3badaf760badbcdb5fcba109c1b
 URL:		http://www.qt.io/
 BuildRequires:	OpenGL-devel
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
@@ -289,7 +289,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
 # symlinks in system bin dir
-for f in qml qmlcachegen qmlimportscanner qmlmin qmlplugindump qmlpreview qmlprofiler qmlscene qmltestrunner qmleasing qmllint ; do
+for f in qml qmlcachegen qmlimportscanner qmlmin qmlplugindump qmlpreview qmlprofiler qmlscene qmltestrunner qmleasing qmllint qmlformat qmltyperegistrar; do
 	ln -sf ../%{_lib}/qt5/bin/$f $RPM_BUILD_ROOT%{_bindir}/${f}-qt5
 done
 
@@ -347,6 +347,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/qmlcachegen-qt5
 %attr(755,root,root) %{_bindir}/qmleasing-qt5
+%attr(755,root,root) %{_bindir}/qmlformat-qt5
 %attr(755,root,root) %{_bindir}/qmlimportscanner-qt5
 %attr(755,root,root) %{_bindir}/qmllint-qt5
 %attr(755,root,root) %{_bindir}/qmlmin-qt5
@@ -356,9 +357,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qml-qt5
 %attr(755,root,root) %{_bindir}/qmlscene-qt5
 %attr(755,root,root) %{_bindir}/qmltestrunner-qt5
+%attr(755,root,root) %{_bindir}/qmltyperegistrar-qt5
 %attr(755,root,root) %{qt5dir}/bin/qml
 %attr(755,root,root) %{qt5dir}/bin/qmlcachegen
 %attr(755,root,root) %{qt5dir}/bin/qmleasing
+%attr(755,root,root) %{qt5dir}/bin/qmlformat
 %attr(755,root,root) %{qt5dir}/bin/qmlimportscanner
 %attr(755,root,root) %{qt5dir}/bin/qmllint
 %attr(755,root,root) %{qt5dir}/bin/qmlmin
@@ -367,6 +370,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/bin/qmlprofiler
 %attr(755,root,root) %{qt5dir}/bin/qmlscene
 %attr(755,root,root) %{qt5dir}/bin/qmltestrunner
+%attr(755,root,root) %{qt5dir}/bin/qmltyperegistrar
 
 %files -n Qt5Qml -f qtdeclarative.lang
 %defattr(644,root,root,755)
@@ -463,6 +467,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libQt5QmlDevTools.prl
 %{_libdir}/libQt5QmlModels.prl
 %{_libdir}/libQt5QmlWorkerScript.prl
+%{_libdir}/metatypes/qt5qml_metatypes.json
+%{_libdir}/metatypes/qt5qmlmodels_metatypes.json
+%{_libdir}/metatypes/qt5qmlworkerscript_metatypes.json
 %{_includedir}/qt5/QtQml
 %{_includedir}/qt5/QtQmlDebug
 %{_includedir}/qt5/QtQmlModels
@@ -481,6 +488,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/cmake/Qt5QuickParticles
 %{_libdir}/cmake/Qt5QuickShapes
 %{qt5dir}/mkspecs/features/qmlcache.prf
+%{qt5dir}/mkspecs/features/qmltypes.prf
 %{qt5dir}/mkspecs/modules/qt_lib_packetprotocol_private.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qml.pri
 %{qt5dir}/mkspecs/modules/qt_lib_qml_private.pri
@@ -509,6 +517,12 @@ rm -rf $RPM_BUILD_ROOT
 # R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_preview.so
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_quickprofiler.so
+
+%dir %{qt5dir}/qml/Qt
+%dir %{qt5dir}/qml/Qt/test
+%dir %{qt5dir}/qml/Qt/test/qtestroot
+%{qt5dir}/qml/Qt/test/qtestroot/plugins.qmltypes
+%{qt5dir}/qml/Qt/test/qtestroot/qmldir
 
 %dir %{qt5dir}/qml/QtQuick
 
@@ -566,6 +580,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libQt5QuickShapes.prl
 %{_libdir}/libQt5QuickTest.prl
 %{_libdir}/libQt5QuickWidgets.prl
+%{_libdir}/metatypes/qt5quick_metatypes.json
+%{_libdir}/metatypes/qt5quickparticles_metatypes.json
+%{_libdir}/metatypes/qt5quickshapes_metatypes.json
+%{_libdir}/metatypes/qt5quicktest_metatypes.json
 %{_includedir}/qt5/QtQuick
 %{_includedir}/qt5/QtQuickParticles
 %{_includedir}/qt5/QtQuickShapes
