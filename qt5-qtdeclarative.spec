@@ -48,7 +48,7 @@ BuildRequires:	qt5-assistant >= %{qttools_assistant_ver}
 BuildRequires:	qt5-build >= %{qtbase_ver}
 %{?with_qm:BuildRequires:	qt5-linguist >= %{qttools_linguist_ver}}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
-BuildRequires:	rpmbuild(macros) >= 1.654
+BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 # qml: Core Gui Qml Widgets
@@ -207,9 +207,7 @@ Summary:	Qt5 Declarative documentation in HTML format
 Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Declarative w formacie HTML
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc
 Qt5 Declarative documentation in HTML format.
@@ -222,9 +220,7 @@ Summary:	Qt5 Declarative documentation in QCH format
 Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Declarative w formacie QCH
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc-qch
 Qt5 Declarative documentation in QCH format.
@@ -236,9 +232,7 @@ Dokumentacja do bibliotek Qt5 Declarative w formacie QCH.
 Summary:	Qt5 Declarative examples
 Summary(pl.UTF-8):	Przykłady do bibliotek Qt5 Declarative
 Group:		X11/Development/Libraries
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description examples
 Qt5 Declarative examples.
