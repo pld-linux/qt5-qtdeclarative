@@ -19,7 +19,8 @@
 
 %define		orgname		qtdeclarative
 %define		qtbase_ver		%{version}
-%define		qttools_ver		5.8
+%define		qttools_linguist_ver	5.5
+%define		qttools_assistant_ver	5.9
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
@@ -42,10 +43,10 @@ BuildRequires:	Qt5Sql-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Test-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Widgets-devel >= %{qtbase_ver}
 %if %{with doc}
-BuildRequires:	qt5-assistant >= %{qttools_ver}
+BuildRequires:	qt5-assistant >= %{qttools_assistant_ver}
 %endif
 BuildRequires:	qt5-build >= %{qtbase_ver}
-%{?with_qm:BuildRequires:	qt5-linguist >= %{qttools_ver}}
+%{?with_qm:BuildRequires:	qt5-linguist >= %{qttools_linguist_ver}}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
 BuildRequires:	rpmbuild(macros) >= 1.654
 BuildRequires:	tar >= 1:1.22
