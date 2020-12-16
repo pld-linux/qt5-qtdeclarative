@@ -4,6 +4,7 @@
 # -- build targets
 %bcond_without	doc		# Documentation
 %bcond_with	jit		# QML just-in-time compiler
+%bcond_with	openvg		# OpenVG scenegraph plugin
 %bcond_without	qm		# QM translations
 
 %if %{with bootstrap}
@@ -30,8 +31,10 @@ Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%
 # Source0-md5:	db3c185d6f13fc60828f8f9f20e092c4
 Source1:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/qttranslations-everywhere-src-%{version}.tar.xz
 # Source1-md5:	9b66cdb64402e8fd9e843f8a7120abb1
-URL:		http://www.qt.io/
+URL:		https://www.qt.io/
+%{?with_openvg:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-devel
+%{?with_openvg:BuildRequires:	OpenVG-devel}
 BuildRequires:	Qt5Core-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Gui-devel >= %{qtbase_ver}
 BuildRequires:	Qt5Network-devel >= %{qtbase_ver}
@@ -245,9 +248,14 @@ Przykłady do bibliotek Qt5 Declarative.
 %prep
 %setup -q -n %{orgname}-everywhere-src-%{version} %{?with_qm:-a1}
 
+%if %{without openvg}
+%{__sed} -i '/openvg/d' src/plugins/scenegraph/scenegraph.pro
+%endif
+
 %build
 qmake-qt5 -- \
 	%{!?with_jit:-no}-feature-qml-jit
+
 %{__make}
 
 %{?with_doc:%{__make} docs}
@@ -517,6 +525,12 @@ rm -rf $RPM_BUILD_ROOT
 # R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_preview.so
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_quickprofiler.so
+
+%if %{with openvg}
+%dir %{qt5dir}/plugins/scenegraph
+# R: Core Gui Quick EGL OpenVG
+%attr(755,root,root) %{qt5dir}/plugins/scenegraph/libqsgopenvgbackend.so
+%endif
 
 %dir %{qt5dir}/qml/Qt
 %dir %{qt5dir}/qml/Qt/test
