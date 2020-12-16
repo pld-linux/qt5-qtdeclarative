@@ -25,7 +25,7 @@ Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
 Version:	5.15.2
-Release:	2
+Release:	3
 License:	LGPL v2.1 with Digia Qt LGPL Exception v1.1 or GPL v3.0
 Group:		X11/Libraries
 Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
@@ -52,12 +52,18 @@ BuildRequires:	rpmbuild(macros) >= 1.752
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 # qml: Core Gui Qml Widgets
+# qmlcachegen: Core
+# qmleasing: Core Gui Qml Quick Widgets
+# qmlformat: Core
 # qmlimportscanner: Core
+# qmllint: Core
 # qmlmin: Core
-# qmlplugindump: Core Gui Qml Quick
-# qmlprofilter: Core Network
+# qmlplugindump: Core Gui Qml Widgets
+# qmlpreview: Core Network
+# qmlprofiler: Core Network
 # qmlscene: Core Gui Qml Quick Widgets
-# qmltestrunner: QuickTest
+# qmltestrunner: Core QuickTest
+# qmltyperegistrar: Core
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
 Requires:	Qt5Network >= %{qtbase_ver}
@@ -89,6 +95,8 @@ Summary:	Qt5 Qml libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Qml
 Group:		Libraries
 # Qt5Qml: Core Network
+# Qt5QmlModels: Core Qml
+# Qt5QmlWorkerScript: Core Network Qml
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Network >= %{qtbase_ver}
 
@@ -113,7 +121,11 @@ Summary:	Qt5 Qml libraries - development files
 Summary(pl.UTF-8):	Biblioteki Qt5 Qml - pliki programistyczne
 Group:		Development/Libraries
 # Qt5Qml: Core Network
-# Qt5QmlDevTools: Core
+# Qt5QmlModels: Core Network Qml
+# Qt5QmlWorkerScript: Core Network Qml
+# Qt5PacketProtocol.a: Core
+# Qt5QmlDebug.a: Core Network PacketProtocol Qml
+# Qt5QmlDevTools.a: Core
 Requires:	Qt5Core-devel >= %{qtbase_ver}
 Requires:	Qt5Network-devel >= %{qtbase_ver}
 Requires:	Qt5Qml = %{version}-%{release}
@@ -129,9 +141,11 @@ Biblioteki Qt5 Qml - pliki programistyczne.
 Summary:	Qt5 Quick libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Quick
 Group:		X11/Libraries
-# Qt5Quick: Core Gui Network Qml
-# Qt5QuickParticles: Core Gui Qml Quick
-# Qt5QuickTest: Gui Qml Quick Test Widgets
+# Qt5Quick: Core Gui Network Qml QmlModels
+# Qt5QuickParticles: Core Gui Qml Quick GL
+# Qt5QuickShapes: Core Gui Qml Quick
+# Qt5QuickTest: Core Gui Qml Quick Test Widgets
+# Qt5QuickWidgets: Core Gui Qml Quick Widgets
 Requires:	Qt5Core >= %{qtbase_ver}
 Requires:	Qt5Gui >= %{qtbase_ver}
 Requires:	Qt5Network >= %{qtbase_ver}
@@ -169,9 +183,11 @@ języka C++ do rozszerzania aplikacji QML przy użyciu kodu w C++.
 Summary:	Qt5 Qml libraries - development files
 Summary(pl.UTF-8):	Biblioteki Qt5 Qml - pliki programistyczne
 Group:		X11/Development/Libraries
-# Qt5Quick: Core Gui Network Qml
-# Qt5QuickParticles: Core Gui Network Qml Quick
-# Qt5QuickTest: Core Gui Widgets
+# Qt5Quick: Core Gui Network Qml QmlModels
+# Qt5QuickParticles: Core Gui Network Qml QmlModels Quick
+# Qt5QuickShapes: Core Gui Network Qml QmlModels Quick
+# Qt5QuickTest: Core Gui Test Widgets
+# Qt5QuickWidgets: Core Gui Network Qml QmlModels Quick Test Widgets
 Requires:	Qt5Core-devel >= %{qtbase_ver}
 Requires:	Qt5Gui-devel >= %{qtbase_ver}
 Requires:	Qt5Network-devel >= %{qtbase_ver}
@@ -185,22 +201,6 @@ Qt5 Qml libraries - development files.
 
 %description -n Qt5Quick-devel -l pl.UTF-8
 Biblioteki Qt5 Qml - pliki programistyczne.
-
-%package -n Qt5Quick-xmllistmodel
-Summary:	XmlListModel plugin for Qt5 Quick
-Summary(pl.UTF-8):	Wtyczka XmlListModel dla Qt5 Quick
-Group:		X11/Libraries
-Requires:	Qt5Qml = %{version}-%{release}
-Requires:	Qt5Quick = %{version}-%{release}
-Requires:	Qt5XmlPatterns >= %{qtxmlpatterns_ver}
-
-%description -n Qt5Quick-xmllistmodel
-XmlListModel plugin for Qt5 Quick provides QML types for creating
-models from XML data.
-
-%description -n Qt5Quick-xmllistmodel -l pl.UTF-8
-Wtyczka XmlListModel dla Qt5 Quick dostarcza typy QML do tworzenia
-modeli z danych XML.
 
 %package doc
 Summary:	Qt5 Declarative documentation in HTML format
@@ -389,19 +389,26 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/plugins/qmltooling
 # R: Core Network Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_debugger.so
-%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_inspector.so
+# R: Core Network Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_local.so
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_messages.so
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_native.so
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_nativedebugger.so
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_profiler.so
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_server.so
+# R: Core Network Qml
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_tcp.so
 
 %dir %{qt5dir}/qml
 %dir %{qt5dir}/qml/Qt
 %dir %{qt5dir}/qml/Qt/labs
 %dir %{qt5dir}/qml/Qt/labs/animation
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/Qt/labs/animation/liblabsanimationplugin.so
 %{qt5dir}/qml/Qt/labs/animation/plugins.qmltypes
 %{qt5dir}/qml/Qt/labs/animation/qmldir
@@ -415,6 +422,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/qml/Qt/labs/qmlmodels
 %{qt5dir}/qml/Qt/labs/qmlmodels/plugins.qmltypes
 %{qt5dir}/qml/Qt/labs/qmlmodels/qmldir
+# R: Core Qml QmlModels
 %attr(755,root,root) %{qt5dir}/qml/Qt/labs/qmlmodels/liblabsmodelsplugin.so
 
 %dir %{qt5dir}/qml/Qt/labs/settings
@@ -423,30 +431,23 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/qml/Qt/labs/settings/plugins.qmltypes
 %{qt5dir}/qml/Qt/labs/settings/qmldir
 
-%dir %{qt5dir}/qml/Qt/labs/sharedimage
-%attr(755,root,root) %{qt5dir}/qml/Qt/labs/sharedimage/libsharedimageplugin.so
-%{qt5dir}/qml/Qt/labs/sharedimage/plugins.qmltypes
-%{qt5dir}/qml/Qt/labs/sharedimage/qmldir
-
-%dir %{qt5dir}/qml/Qt/labs/wavefrontmesh
-%attr(755,root,root) %{qt5dir}/qml/Qt/labs/wavefrontmesh/libqmlwavefrontmeshplugin.so
-%{qt5dir}/qml/Qt/labs/wavefrontmesh/plugins.qmltypes
-%{qt5dir}/qml/Qt/labs/wavefrontmesh/qmldir
-
 %dir %{qt5dir}/qml/QtQml
+# R: Core Qml QmlModels
 %attr(755,root,root) %{qt5dir}/qml/QtQml/libqmlplugin.so
 %dir %{qt5dir}/qml/QtQml/Models.2
-# R: Core Qml
+# R: Core Qml QmlModels
 %attr(755,root,root) %{qt5dir}/qml/QtQml/Models.2/libmodelsplugin.so
 %{qt5dir}/qml/QtQml/Models.2/plugins.qmltypes
 %{qt5dir}/qml/QtQml/Models.2/qmldir
 
 %dir %{qt5dir}/qml/QtQml/StateMachine
+# R: Core Qml
 %attr(755,root,root) %{qt5dir}/qml/QtQml/StateMachine/libqtqmlstatemachine.so
 %{qt5dir}/qml/QtQml/StateMachine/plugins.qmltypes
 %{qt5dir}/qml/QtQml/StateMachine/qmldir
 
 %dir %{qt5dir}/qml/QtQml/WorkerScript.2
+# R: Core Qml QmlWorkerScript
 %attr(755,root,root) %{qt5dir}/qml/QtQml/WorkerScript.2/libworkerscriptplugin.so
 %{qt5dir}/qml/QtQml/WorkerScript.2/plugins.qmltypes
 %{qt5dir}/qml/QtQml/WorkerScript.2/qmldir
@@ -462,11 +463,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libQt5QmlWorkerScript.so
 # static-only
 %{_libdir}/libQt5PacketProtocol.a
-%{_libdir}/libQt5PacketProtocol.prl
 %{_libdir}/libQt5QmlDebug.a
-%{_libdir}/libQt5QmlDebug.prl
 %{_libdir}/libQt5QmlDevTools.a
+%{_libdir}/libQt5PacketProtocol.prl
 %{_libdir}/libQt5Qml.prl
+%{_libdir}/libQt5QmlDebug.prl
 %{_libdir}/libQt5QmlDevTools.prl
 %{_libdir}/libQt5QmlModels.prl
 %{_libdir}/libQt5QmlWorkerScript.prl
@@ -518,7 +519,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libQt5QuickWidgets.so.5
 
 # R: Core Gui Qml Quick
+%attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_inspector.so
+# R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_preview.so
+# R: Core Qml Quick
 %attr(755,root,root) %{qt5dir}/plugins/qmltooling/libqmldbg_quickprofiler.so
 
 %if %{with openvg}
@@ -527,7 +531,18 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/plugins/scenegraph/libqsgopenvgbackend.so
 %endif
 
-%dir %{qt5dir}/qml/Qt
+%dir %{qt5dir}/qml/Qt/labs/sharedimage
+# R: Core Gui Qml Quick
+%attr(755,root,root) %{qt5dir}/qml/Qt/labs/sharedimage/libsharedimageplugin.so
+%{qt5dir}/qml/Qt/labs/sharedimage/plugins.qmltypes
+%{qt5dir}/qml/Qt/labs/sharedimage/qmldir
+
+%dir %{qt5dir}/qml/Qt/labs/wavefrontmesh
+# R: Core Gui Qml Quick
+%attr(755,root,root) %{qt5dir}/qml/Qt/labs/wavefrontmesh/libqmlwavefrontmeshplugin.so
+%{qt5dir}/qml/Qt/labs/wavefrontmesh/plugins.qmltypes
+%{qt5dir}/qml/Qt/labs/wavefrontmesh/qmldir
+
 %dir %{qt5dir}/qml/Qt/test
 %dir %{qt5dir}/qml/Qt/test/qtestroot
 %{qt5dir}/qml/Qt/test/qtestroot/plugins.qmltypes
@@ -536,7 +551,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{qt5dir}/qml/QtQuick
 
 %dir %{qt5dir}/qml/QtQuick/Layouts
-%{qt5dir}/qml/QtQuick/Layouts/libqquicklayoutsplugin.so
+# R: Core Gui Qml Quick
+%attr(755,root,root) %{qt5dir}/qml/QtQuick/Layouts/libqquicklayoutsplugin.so
 %{qt5dir}/qml/QtQuick/Layouts/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Layouts/qmldir
 
@@ -553,24 +569,25 @@ rm -rf $RPM_BUILD_ROOT
 %{qt5dir}/qml/QtQuick/Particles.2/qmldir
 
 %dir %{qt5dir}/qml/QtQuick/Shapes
+# R: Core Qml QuickShapes
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Shapes/libqmlshapesplugin.so
 %{qt5dir}/qml/QtQuick/Shapes/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Shapes/qmldir
 
 %dir %{qt5dir}/qml/QtQuick/Window.2
-# R: Core Qml Quick
+# R: Core Gui Qml Quick
 %attr(755,root,root) %{qt5dir}/qml/QtQuick/Window.2/libwindowplugin.so
 %{qt5dir}/qml/QtQuick/Window.2/plugins.qmltypes
 %{qt5dir}/qml/QtQuick/Window.2/qmldir
 
 %dir %{qt5dir}/qml/QtQuick.2
-# R: Core Qml Quick
+# R: Core Qml QmlModels QmlWorkerScript Quick
 %attr(755,root,root) %{qt5dir}/qml/QtQuick.2/libqtquick2plugin.so
 %{qt5dir}/qml/QtQuick.2/plugins.qmltypes
 %{qt5dir}/qml/QtQuick.2/qmldir
 
 %dir %{qt5dir}/qml/QtTest
-# R: Core Gui Qml QuickTest Test
+# R: Core Gui Qml Quick QuickTest Widgets Test
 %attr(755,root,root) %{qt5dir}/qml/QtTest/libqmltestplugin.so
 %{qt5dir}/qml/QtTest/plugins.qmltypes
 %{qt5dir}/qml/QtTest/qmldir
