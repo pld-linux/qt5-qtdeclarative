@@ -129,7 +129,7 @@ Group:		Development/Libraries
 Requires:	Qt5Core-devel >= %{qtbase_ver}
 Requires:	Qt5Network-devel >= %{qtbase_ver}
 Requires:	Qt5Qml = %{version}-%{release}
-Obsoletes:	qt5-qtdeclarative-devel
+Obsoletes:	qt5-qtdeclarative-devel < 5.2.1-1
 
 %description -n Qt5Qml-devel
 Qt5 Qml libraries - development files.
