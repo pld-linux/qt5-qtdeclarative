@@ -207,7 +207,7 @@ Summary:	Qt5 Declarative documentation in HTML format
 Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Declarative w formacie HTML
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description doc
 Qt5 Declarative documentation in HTML format.
@@ -220,7 +220,7 @@ Summary:	Qt5 Declarative documentation in QCH format
 Summary(pl.UTF-8):	Dokumentacja do bibliotek Qt5 Declarative w formacie QCH
 Group:		Documentation
 Requires:	qt5-doc-common >= %{qtbase_ver}
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description doc-qch
 Qt5 Declarative documentation in QCH format.
@@ -232,7 +232,7 @@ Dokumentacja do bibliotek Qt5 Declarative w formacie QCH.
 Summary:	Qt5 Declarative examples
 Summary(pl.UTF-8):	Przykłady do bibliotek Qt5 Declarative
 Group:		X11/Development/Libraries
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description examples
 Qt5 Declarative examples.
