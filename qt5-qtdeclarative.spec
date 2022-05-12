@@ -50,7 +50,7 @@ BuildRequires:	qt5-build >= %{qtbase_ver}
 %{?with_qm:BuildRequires:	qt5-linguist >= %{qttools_linguist_ver}}
 BuildRequires:	qt5-qmake >= %{qtbase_ver}
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.752
+BuildRequires:	rpmbuild(macros) >= 2.016
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 # qml: Core Gui Qml Widgets
@@ -251,7 +251,7 @@ Przykłady do bibliotek Qt5 Declarative.
 %endif
 
 %build
-qmake-qt5 -- \
+%{qmake_qt5} -- \
 	%{!?with_jit:-no}-feature-qml-jit
 
 %{__make}
@@ -260,7 +260,7 @@ qmake-qt5 -- \
 
 %if %{with qm}
 cd qttranslations-everywhere-src-%{version}
-qmake-qt5
+%{qmake_qt5}
 %{__make}
 cd ..
 %endif
