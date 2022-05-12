@@ -1,0 +1,10 @@
+--- qtdeclarative-everywhere-src-5.15.4/src/qmldebug/qqmlprofilerevent_p.h.orig	2022-04-07 14:22:02.000000000 +0200
++++ qtdeclarative-everywhere-src-5.15.4/src/qmldebug/qqmlprofilerevent_p.h	2022-05-12 01:16:07.538540531 +0200
+@@ -48,6 +48,7 @@
+ #include <QtCore/qmetatype.h>
+ 
+ #include <initializer_list>
++#include <limits>
+ #include <type_traits>
+ 
+ //

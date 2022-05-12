@@ -24,14 +24,15 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.15.2
-Release:	3
+Version:	5.15.4
+Release:	1
 License:	LGPL v2.1 or LGPL v3 with Qt Company LGPL Exception v1.1
 Group:		X11/Libraries
-Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-src-%{version}.tar.xz
-# Source0-md5:	db3c185d6f13fc60828f8f9f20e092c4
-Source1:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/qttranslations-everywhere-src-%{version}.tar.xz
-# Source1-md5:	9b66cdb64402e8fd9e843f8a7120abb1
+Source0:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-opensource-src-%{version}.tar.xz
+# Source0-md5:	5eece04590d1144978273b2ffed2776f
+Source1:	http://download.qt.io/official_releases/qt/5.15/%{version}/submodules/qttranslations-everywhere-opensource-src-%{version}.tar.xz
+# Source1-md5:	6ba46a712a698118f396f78a785f6774
+Patch0:		gcc11.patch
 URL:		https://www.qt.io/
 %{?with_openvg:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-devel
@@ -242,6 +243,7 @@ Przykłady do bibliotek Qt5 Declarative.
 
 %prep
 %setup -q -n %{orgname}-everywhere-src-%{version} %{?with_qm:-a1}
+%patch0 -p1
 
 %if %{without openvg}
 %{__sed} -i '/openvg/d' src/plugins/scenegraph/scenegraph.pro
@@ -292,7 +294,7 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/libQt5*.la
 
 # symlinks in system bin dir
-for f in qml qmlcachegen qmlimportscanner qmlmin qmlplugindump qmlpreview qmlprofiler qmlscene qmltestrunner qmleasing qmllint qmlformat qmltyperegistrar; do
+for f in qml qmlcachegen qmlimportscanner qmlmin qmlplugindump qmlpreview qmlprofiler qmlscene qmltestrunner qmltime qmleasing qmllint qmlformat qmltyperegistrar; do
 	ln -sf ../%{_lib}/qt5/bin/$f $RPM_BUILD_ROOT%{_bindir}/${f}-qt5
 done
 
@@ -360,6 +362,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/qml-qt5
 %attr(755,root,root) %{_bindir}/qmlscene-qt5
 %attr(755,root,root) %{_bindir}/qmltestrunner-qt5
+%attr(755,root,root) %{_bindir}/qmltime-qt5
 %attr(755,root,root) %{_bindir}/qmltyperegistrar-qt5
 %attr(755,root,root) %{qt5dir}/bin/qml
 %attr(755,root,root) %{qt5dir}/bin/qmlcachegen
@@ -373,6 +376,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{qt5dir}/bin/qmlprofiler
 %attr(755,root,root) %{qt5dir}/bin/qmlscene
 %attr(755,root,root) %{qt5dir}/bin/qmltestrunner
+%attr(755,root,root) %{qt5dir}/bin/qmltime
 %attr(755,root,root) %{qt5dir}/bin/qmltyperegistrar
 
 %files -n Qt5Qml -f qtdeclarative.lang
