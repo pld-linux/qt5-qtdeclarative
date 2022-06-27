@@ -24,15 +24,14 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.15.4
+Version:	5.15.5
 Release:	1
 License:	LGPL v2.1 or LGPL v3 with Qt Company LGPL Exception v1.1
 Group:		X11/Libraries
 Source0:	https://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-opensource-src-%{version}.tar.xz
-# Source0-md5:	5eece04590d1144978273b2ffed2776f
+# Source0-md5:	2e382e875dbe39704849bbfe6bcc774e
 Source1:	https://download.qt.io/official_releases/qt/5.15/%{version}/submodules/qttranslations-everywhere-opensource-src-%{version}.tar.xz
-# Source1-md5:	6ba46a712a698118f396f78a785f6774
-Patch0:		gcc11.patch
+# Source1-md5:	fa34c5c6f4facdfa18055c15532dd138
 URL:		https://www.qt.io/
 %{?with_openvg:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-devel
@@ -244,7 +243,6 @@ Przykłady do bibliotek Qt5 Declarative.
 
 %prep
 %setup -q -n %{orgname}-everywhere-src-%{version} %{?with_qm:-a1}
-%patch0 -p1
 
 %if %{without openvg}
 %{__sed} -i '/openvg/d' src/plugins/scenegraph/scenegraph.pro
