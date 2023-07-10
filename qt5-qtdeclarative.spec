@@ -98,7 +98,7 @@ Group:		Libraries
 # Qt5Qml: Core Network
 # Qt5QmlModels: Core Qml
 # Qt5QmlWorkerScript: Core Network Qml
-Requires:	Qt5Core >= %{qtbase_ver}
+%requires_eq_to	Qt5Core Qt5Core-devel
 Requires:	Qt5Network >= %{qtbase_ver}
 
 %description -n Qt5Qml
@@ -147,7 +147,7 @@ Group:		X11/Libraries
 # Qt5QuickShapes: Core Gui Qml Quick
 # Qt5QuickTest: Core Gui Qml Quick Test Widgets
 # Qt5QuickWidgets: Core Gui Qml Quick Widgets
-Requires:	Qt5Core >= %{qtbase_ver}
+%requires_eq_to	Qt5Core Qt5Core-devel
 Requires:	Qt5Gui >= %{qtbase_ver}
 Requires:	Qt5Network >= %{qtbase_ver}
 Requires:	Qt5Qml = %{version}-%{release}
