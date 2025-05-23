@@ -24,14 +24,14 @@
 Summary:	The Qt5 Declarative libraries
 Summary(pl.UTF-8):	Biblioteki Qt5 Declarative
 Name:		qt5-%{orgname}
-Version:	5.15.16
-Release:	2
+Version:	5.15.17
+Release:	1
 License:	LGPL v2.1 or LGPL v3 with Qt Company LGPL Exception v1.1
 Group:		X11/Libraries
 Source0:	https://download.qt.io/official_releases/qt/5.15/%{version}/submodules/%{orgname}-everywhere-opensource-src-%{version}.tar.xz
-# Source0-md5:	5fbc16b594913626aa1da2b0ecc46714
+# Source0-md5:	7e4b7f1c89b796643eaf31ff2d63a17a
 Source1:	https://download.qt.io/official_releases/qt/5.15/%{version}/submodules/qttranslations-everywhere-opensource-src-%{version}.tar.xz
-# Source1-md5:	2f9320ff53b3cb51482cd45eec25a470
+# Source1-md5:	e20cfdef4f3088ca568f7e43ab5bba8c
 URL:		https://www.qt.io/
 %{?with_openvg:BuildRequires:	EGL-devel}
 BuildRequires:	OpenGL-devel
